@@ -1,14 +1,73 @@
 <script setup>
 import ContainerWrapper from '@/components/ContainerWrapper.vue'
-import { Form, Field, ErrorMessage } from "vee-validate";
+import {Form, Field, ErrorMessage} from "vee-validate";
 import {ref} from "vue";
-
-
+import service from "../service";
+import Swal from "sweetalert2";
+import router from "../router";
 const previewSrc = ref('')
+import {CommonSwalOptions} from "../CONSTANTS";
+const toTimestamp = (strDate) => {
+  let datum = Date.parse(strDate);
+  return datum / 1000;
+}
 
-const onSubmit = () => {
-  // TODO: API CALL TO BACKEND
+const onSubmit = async (values, { setErrors }) => {
+  const {name, description, startDate, endDate, image} = values
+
+  try {
+    let resp = await service({requiresAuth: true}).post('/events', {
+      name,
+      description,
+      image: image[0],
+      startDate: toTimestamp(startDate),
+      endDate: toTimestamp(endDate)
+    }, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+
+    if (resp.data) {
+
+      // if error occurs
+      if (resp.data.errors) {
+        console.log('errors', resp.data.errors)
+        console.log('errors', setErrors)
+        setErrors(resp.data.errors)
+        await Swal.fire({
+          ...CommonSwalOptions,
+          title: 'Error!',
+          icon: 'error',
+          text: 'Something went wrong!',
+        })
+
+        return;
+      }
+
+      // if event created successfully
+      Swal.fire({
+        ...CommonSwalOptions,
+        title: 'Success',
+        text: 'Event created successfully',
+        icon: 'success',
+      })
+
+      router.push('/')
+    }
+
+  } catch (error) {
+    await Swal.fire({
+      ...CommonSwalOptions,
+      title: 'Error!',
+      icon: 'error',
+      text: error.message,
+    })
+  }
+
+
 };
+
 
 const showPreview = (event) => {
   if (event.target.files.length > 0) {
@@ -40,7 +99,7 @@ const validateText = (value) => {
           </label>
 
           <Field
-              name="event-name"
+              name="name"
               :rules="validateText"
               accept="image/*"
               type="text"
@@ -50,7 +109,7 @@ const validateText = (value) => {
 
           <label class="label">
                 <span class="label-text-alt text-red-500">
-                  <ErrorMessage name="event-name" />
+                  <ErrorMessage name="name"/>
                 </span>
           </label>
         </div>
@@ -64,7 +123,7 @@ const validateText = (value) => {
             </label>
 
             <Field
-                name="event-start-date"
+                name="startDate"
                 :rules="validateText"
                 type="date"
                 class="input input-bordered w-full"
@@ -73,7 +132,7 @@ const validateText = (value) => {
 
             <label class="label">
                 <span class="label-text-alt text-red-500">
-                  <ErrorMessage name="event-start-date" />
+                  <ErrorMessage name="startDate"/>
                 </span>
             </label>
           </div>
@@ -86,7 +145,7 @@ const validateText = (value) => {
             </label>
 
             <Field
-                name="event-end-date"
+                name="endDate"
                 :rules="validateText"
                 type="date"
                 class="input input-bordered w-full"
@@ -95,7 +154,7 @@ const validateText = (value) => {
 
             <label class="label">
                 <span class="label-text-alt text-red-500">
-                  <ErrorMessage name="event-end-date" />
+                  <ErrorMessage name="endDate"/>
                 </span>
             </label>
           </div>
@@ -110,7 +169,7 @@ const validateText = (value) => {
 
           <Field
               as="textarea"
-              name="event-description"
+              name="description"
               :rules="validateText"
               class="textarea textarea-bordered w-full"
               placeholder="Enter your event description"
@@ -118,7 +177,7 @@ const validateText = (value) => {
 
           <label class="label">
                 <span class="label-text-alt text-red-500">
-                  <ErrorMessage name="event-description" />
+                  <ErrorMessage name="description"/>
                 </span>
           </label>
         </div>
@@ -136,7 +195,7 @@ const validateText = (value) => {
                 <div class="w-full p-3">
                   <div
                       :style="`background-image: url(${previewSrc})`"
-                      class="relative border-dotted h-48 rounded-lg border-dashed border-2 border-primary bg-gray-100 bg-cover flex justify-center items-center">
+                      class="relative border-dotted h-48 rounded-xl border-dashed border-2 border-primary bg-gray-100 bg-cover flex justify-center items-center">
 
                     <div class="absolute" v-if="previewSrc.length === 0">
                       <div class="flex flex-col items-center">
@@ -147,7 +206,7 @@ const validateText = (value) => {
 
                     <Field
                         :rules="validateText"
-                        name="event-image"
+                        name="image"
                         type="file"
                         accept="image/*"
                         class="h-full w-full opacity-0"
@@ -161,7 +220,7 @@ const validateText = (value) => {
 
             <label class="label">
                 <span class="label-text-alt text-red-500">
-                  <ErrorMessage name="event-image" />
+                  <ErrorMessage name="image"/>
                 </span>
             </label>
           </div>

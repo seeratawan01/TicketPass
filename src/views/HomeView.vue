@@ -6,6 +6,7 @@ import router from "../router";
 import { onMounted, reactive } from "vue";
 import Swal from 'sweetalert2'
 import service from "../service";
+import {CommonSwalOptions} from "../CONSTANTS";
 
 const data = reactive({
   events: [],
@@ -50,13 +51,10 @@ const fetchEvents = async (page = 1) => {
   } catch (error) {
 
     Swal.fire({
-      showConfirmButton: false,
+      ...CommonSwalOptions,
       title: 'Error!',
       icon: 'error',
       text: error.message,
-      toast: true,
-      position: 'top-right',
-      timer: 5000
     })
   }
 

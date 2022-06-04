@@ -6,6 +6,8 @@ import { useRoute } from 'vue-router'
 import service from "../service";
 import Swal from "sweetalert2";
 import dayjs from "dayjs";
+import EventCardLoader from "@/components/EventCardLoader.vue";
+import {CommonSwalOptions} from "../CONSTANTS";
 
 const route = useRoute()
 
@@ -38,13 +40,10 @@ const fetchEvent = async (eventId) => {
   } catch (error) {
 
     Swal.fire({
-      showConfirmButton: false,
+      ...CommonSwalOptions,
       title: 'Error!',
       icon: 'error',
       text: error.message,
-      toast: true,
-      position: 'top-right',
-      timer: 5000
     })
   }
   data.loading = false
@@ -75,20 +74,9 @@ const fetchEvent = async (eventId) => {
               </div>
       </div>
     </div>
-<!--{{data.event.image}}-->
-<!--    <div v-if="!data.loading" class="hero h-96" style="background-image: url(https://api.lorem.space/image/fashion?w=1000&h=800);">-->
-<!--      <div class="hero-overlay bg-opacity-50"></div>-->
-<!--      <div class="hero-content text-center text-neutral-content">-->
-<!--        <div class="max-w-md">-->
-<!--          <h1 class="mb-5 text-5xl font-bold">Hello there</h1>-->
-<!--          <div class="flex space-x-1.5 justify-center items-center mb-5">-->
-<!--            <CalendarIcon class="h-5 w-5 text-primary mr-1.5"/>-->
-<!--            <span>123-123-123 - </span><span class="text-gray-100">11:00</span>-->
-<!--          </div> <p class="mb-5">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>-->
-<!--          <button class="btn btn-primary text-white">Get Tickets</button>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
+    <div v-else>
+      <EventCardLoader variant="page"/>
+    </div>
 
   </ContainerWrapper>
 </template>

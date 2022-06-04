@@ -1,20 +1,18 @@
 <script setup>
-import { Form, Field, ErrorMessage } from "vee-validate";
-import { useAuthStore } from "@/stores";
+import {Form, Field, ErrorMessage} from "vee-validate";
+import {useAuthStore} from "@/stores";
 import Swal from "sweetalert2";
+import {CommonSwalOptions} from "../CONSTANTS";
 
 const onSubmit = (values) => {
   const authStore = useAuthStore();
-  const { email, password } = values;
+  const {email, password} = values;
   return authStore.login(email, password).catch((error) => {
     Swal.fire({
-      showConfirmButton: false,
+      ...CommonSwalOptions,
       title: "Error!",
       icon: "error",
       text: error.response.data.message,
-      toast: true,
-      position: "top-right",
-      timer: 5000,
     });
   });
 };
@@ -61,32 +59,32 @@ const validatePassword = (value) => {
 
             <div class="form-control w-full">
               <Field
-                name="email"
-                :rules="validateEmail"
-                type="email"
-                class="input input-bordered w-full"
-                placeholder="Email Address"
+                  name="email"
+                  :rules="validateEmail"
+                  type="email"
+                  class="input input-bordered w-full"
+                  placeholder="Email Address"
               />
 
               <label class="label">
                 <span class="label-text-alt text-red-500">
-                  <ErrorMessage name="email" />
+                  <ErrorMessage name="email"/>
                 </span>
               </label>
             </div>
 
             <div class="form-control w-full mt-1">
               <Field
-                name="password"
-                :rules="validatePassword"
-                type="password"
-                class="input input-bordered w-full"
-                placeholder="Password"
+                  name="password"
+                  :rules="validatePassword"
+                  type="password"
+                  class="input input-bordered w-full"
+                  placeholder="Password"
               />
 
               <label class="label">
                 <span class="label-text-alt text-red-500">
-                  <ErrorMessage name="password" />
+                  <ErrorMessage name="password"/>
                 </span>
               </label>
             </div>
