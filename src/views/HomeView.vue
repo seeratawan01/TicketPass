@@ -4,9 +4,9 @@ import EventCardLoader from "@/components/EventCardLoader.vue";
 import ContainerWrapper from "@/components/ContainerWrapper.vue";
 import router from "../router";
 import { onMounted, reactive } from "vue";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 import service from "../service";
-import {CommonSwalOptions} from "../CONSTANTS";
+import { CommonSwalOptions } from "../CONSTANTS";
 
 const data = reactive({
   events: [],
@@ -46,16 +46,14 @@ const fetchEvents = async (page = 1) => {
       if (responseData.data.meta) {
         data.pagination.currentPage = responseData.data.meta.current_page;
       }
-
     }
   } catch (error) {
-
     Swal.fire({
       ...CommonSwalOptions,
-      title: 'Error!',
-      icon: 'error',
+      title: "Error!",
+      icon: "error",
       text: error.message,
-    })
+    });
   }
 
   data.loading = false;

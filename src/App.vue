@@ -1,13 +1,11 @@
 <script setup>
 import { RouterView } from "vue-router";
-import Navbar from '@/components/Navbar.vue'
-
+import Navbar from "@/components/NavigationBar.vue";
 </script>
 
 <template>
-
   <!-- Navbar Component (not visible on login route) -->
-  <Navbar v-if="$route.name !== 'login'"/>
+  <Navbar v-if="$route.name !== 'login'" />
 
   <!-- Website content will render here -->
   <main>
