@@ -8,7 +8,7 @@ import { RouterLink } from "vue-router";
   <header class="navbar bg-base-100 border-b py-3.5">
     <div class="flex-1">
       <RouterLink to="/" custom v-slot="{ navigate }">
-        <a @click="navigate" @keypress.enter="navigate" role="link" class="btn btn-ghost normal-case font-bold text-xl">Ticket<span class="text-primary">Pass</span></a>
+        <a @click="navigate" @keypress.enter="navigate" role="link" class="btn btn-ghost normal-case font-bold text-2xl">Ticket<span class="text-primary">Pass</span></a>
       </RouterLink>
     </div>
     <nav class="flex-none">
