@@ -5,8 +5,8 @@ import Navbar from '@/components/Navbar.vue'
 </script>
 
 <template>
-  <Navbar/>
-  <main>
+  <Navbar v-if="$route.name !== 'login'"/>
+  <main class="py-16">
     <RouterView />
   </main>
 </template>
