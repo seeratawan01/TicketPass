@@ -1,6 +1,8 @@
 <script setup>
 import { RouterLink } from "vue-router";
+import { useAuthStore } from '@/stores';
 
+const authStore = useAuthStore();
 </script>
 
 
@@ -25,7 +27,8 @@ import { RouterLink } from "vue-router";
           </li>
 
           <li class="mt-2.5">
-            <RouterLink to="/login" custom v-slot="{ navigate }">
+            <button v-if="authStore.access_token" @click="() => authStore.logout()"  role="link"  class="btn btn-outline px-12">Log out</button>
+            <RouterLink v-else to="/login" custom v-slot="{ navigate }">
               <button @click="navigate" @keypress.enter="navigate" role="link"  class="btn btn-outline px-12">Login</button>
             </RouterLink>
           </li>
@@ -41,7 +44,9 @@ import { RouterLink } from "vue-router";
         </li>
 
         <li class="ml-2.5">
-          <RouterLink to="/login" custom v-slot="{ navigate }">
+          <button v-if="authStore.access_token" @click="() => authStore.logout()"  role="link"  class="btn btn-outline px-12">Log out</button>
+
+          <RouterLink v-else  to="/login" custom v-slot="{ navigate }">
             <button @click="navigate" @keypress.enter="navigate" role="link"  class="btn btn-outline px-12">Login</button>
           </RouterLink>
         </li>

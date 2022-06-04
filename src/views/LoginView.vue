@@ -1,8 +1,22 @@
 <script setup>
 import { Form, Field, ErrorMessage } from "vee-validate";
+import { useAuthStore } from "@/stores";
+import Swal from "sweetalert2";
 
-const onSubmit = () => {
-  // TODO: API CALL TO BACKEND
+const onSubmit = (values) => {
+  const authStore = useAuthStore();
+  const { email, password } = values;
+  return authStore.login(email, password).catch((error) => {
+    Swal.fire({
+      showConfirmButton: false,
+      title: "Error!",
+      icon: "error",
+      text: error.response.data.message,
+      toast: true,
+      position: "top-right",
+      timer: 5000,
+    });
+  });
 };
 
 /**
@@ -31,16 +45,18 @@ const validatePassword = (value) => {
 </script>
 <template>
   <section class="h-screen">
-    <div class=" px-6 py-12 h-full">
-      <div
-        class="flex justify-center items-center h-full g-6 text-gray-800"
-      >
+    <div class="px-6 py-12 h-full">
+      <div class="flex justify-center items-center h-full g-6 text-gray-800">
         <div class="w-full md:w-8/12 lg:w-5/12 p-16 border">
           <Form @submit="onSubmit">
             <!-- Email input -->
 
             <div class="text-4xl font-bold text-center mb-8">
-              Ticket<span class="text-primary">Pass</span>
+              <RouterLink to="/" custom v-slot="{ navigate }">
+                <a @click="navigate" @keypress.enter="navigate" role="link" class="cursor-pointer">
+                  Ticket<span class="text-primary">Pass</span>
+                </a>
+              </RouterLink>
             </div>
 
             <div class="form-control w-full">
