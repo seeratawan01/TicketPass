@@ -17,6 +17,24 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import("../views/LoginView.vue"),
     },
+    {
+      path: "/event",
+      name: "event",
+      redirect: "/event/new",
+      component: () => import("../components/EventRoot.vue"),
+      children: [
+        {
+          path: "/event/new",
+          name: "create-event",
+          component: () => import("../views/CreateEventView.vue"),
+        },
+        {
+          path: "/event/:id",
+          name: "view-event",
+          component: () => import("../views/EventView.vue"),
+        },
+      ],
+    },
   ],
 });
 

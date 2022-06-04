@@ -5,9 +5,11 @@ import { RouterLink } from "vue-router";
 
 
 <template>
-  <header class="navbar bg-base-100 border-b py-2.5">
+  <header class="navbar bg-base-100 border-b py-3.5">
     <div class="flex-1">
-      <a class="btn btn-ghost normal-case font-bold text-xl">Ticket<span class="text-primary">Pass</span></a>
+      <RouterLink to="/" custom v-slot="{ navigate }">
+        <a @click="navigate" @keypress.enter="navigate" role="link" class="btn btn-ghost normal-case font-bold text-xl">Ticket<span class="text-primary">Pass</span></a>
+      </RouterLink>
     </div>
     <nav class="flex-none">
 
@@ -17,7 +19,7 @@ import { RouterLink } from "vue-router";
         </label>
         <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
           <li>
-            <RouterLink to="/" custom v-slot="{ navigate }">
+            <RouterLink to="/event/new" custom v-slot="{ navigate }">
               <button @click="navigate" @keypress.enter="navigate" role="link" class="btn btn-primary rounded-full text-white px-12">Create Event</button>
             </RouterLink>
           </li>
@@ -33,7 +35,7 @@ import { RouterLink } from "vue-router";
 
       <ul class="hidden sm:flex menu menu-horizontal p-0">
         <li>
-          <RouterLink to="/" custom v-slot="{ navigate }">
+          <RouterLink to="/event/new" custom v-slot="{ navigate }">
             <button @click="navigate" @keypress.enter="navigate" role="link" class="btn btn-primary rounded-full text-white px-12">Create Event</button>
           </RouterLink>
         </li>

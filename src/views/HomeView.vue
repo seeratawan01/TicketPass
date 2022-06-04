@@ -1,15 +1,17 @@
 <script setup>
 import EventCard from '@/components/EventCard.vue'
 import ContainerWrapper from '@/components/ContainerWrapper.vue'
+import router from "../router";
 
 const handleClick = () => {
+  router.push({ name: 'view-event', params: { id: 1 } });
   console.log('Clicked')
 }
 
 </script>
 
 <template>
-  <ContainerWrapper>
+  <ContainerWrapper class="py-12">
     <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-8">
       <EventCard
           v-for="i in 8"
