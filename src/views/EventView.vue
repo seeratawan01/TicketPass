@@ -38,6 +38,8 @@ const fetchEvent = async (eventId) => {
     if (event.data) {
       data.event = { ...event.data.data };
     }
+
+    data.loading = false;
   } catch (error) {
     Swal.fire({
       ...CommonSwalOptions,
@@ -47,8 +49,6 @@ const fetchEvent = async (eventId) => {
     });
 
     router.push("/");
-  } finally {
-    data.loading = false;
   }
 };
 </script>

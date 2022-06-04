@@ -47,6 +47,9 @@ const fetchEvents = async (page = 1) => {
         data.pagination.currentPage = responseData.data.meta.current_page;
       }
     }
+
+    data.loading = false;
+
   } catch (error) {
     Swal.fire({
       ...CommonSwalOptions,
@@ -56,7 +59,6 @@ const fetchEvents = async (page = 1) => {
     });
   }
 
-  data.loading = false;
 };
 
 onMounted(async () => {
