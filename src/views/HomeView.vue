@@ -79,6 +79,7 @@ onMounted(async () => {
           :cover="event.image"
           :title="event.name"
           :startDate="event.startDate"
+          :endDate="event.endDate"
           @view-click="() => handleClick(event.id)"
         />
       </template>

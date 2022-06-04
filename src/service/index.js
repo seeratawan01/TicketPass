@@ -1,5 +1,6 @@
 import axios from "axios";
 import {useAuthStore} from "../stores";
+const baseUrl = `${import.meta.env.VITE_API_URL}/api/`;
 
 export default ({requiresAuth = false} = {}) => {
     let options = {
@@ -7,7 +8,7 @@ export default ({requiresAuth = false} = {}) => {
     };
     const authStore = useAuthStore();
 
-    options.baseURL = "http://127.0.0.1:8000/api/";
+    options.baseURL = baseUrl;
 
     // Decide add token or not
     if (requiresAuth) {

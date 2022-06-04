@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import dayjs from "dayjs";
 import EventCardLoader from "@/components/EventCardLoader.vue";
 import {CommonSwalOptions} from "../CONSTANTS";
+import router from "../router";
 
 const route = useRoute()
 
@@ -45,8 +46,12 @@ const fetchEvent = async (eventId) => {
       icon: 'error',
       text: error.message,
     })
+
+    router.push('/')
+
+  } finally {
+    data.loading = false
   }
-  data.loading = false
 
 }
 </script>
